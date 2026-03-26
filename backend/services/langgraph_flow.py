@@ -46,9 +46,9 @@ Understand the user's research topic and convert it into an arXiv search query.
 
 Rules:
 - Extract core idea, methods, domain
-- Detect paper count if mentioned
-- Default paper_count = 5
-- Max paper_count = 10
+- Detect paper count if mentioned(Eg. "top 6 papers on X" == paper_count: 6)
+- Default paper_count = 5(if not specified)
+- Max paper_count = 10(to avoid overload)
 
 Return ONLY valid JSON like this:
 {{
@@ -62,14 +62,12 @@ User Input:
 
     response = generate_response(prompt)
 
-    print("RAW LLM RESPONSE:", response)
 
     try:
         data = json.loads(response)
-
+        print("Parsed JSON:", data)
         state["query"] = data.get("query", state["user_input"])
         state["paper_count"] = min(int(data.get("paper_count", 5)), 10)
-        print(state)
 
     except Exception as e:
         print("JSON PARSE ERROR:", e)
@@ -83,7 +81,7 @@ User Input:
 from services.arxiv_service import fetch_papers
 
 def fetch_arxiv(state: GraphState):
-    print(f"Fetching papers for query: {state['query']} with count: {state['paper_count']}")
+    print(state["paper_count"])
     papers = fetch_papers(state["query"], state["paper_count"])
     state["papers"] = papers
     return state

@@ -39,6 +39,16 @@ Given multiple research paper abstracts, generate a structured literature review
 
 Abstracts:
 {combined_text}
+
+Return ONLY valid JSON:
+
+{{
+  "introduction": "...",
+  "key_themes": "...",
+  "methods": "...",
+  "findings": "...",
+  "trends": "..."
+}}
 """
     return ollama_generate(prompt)
 

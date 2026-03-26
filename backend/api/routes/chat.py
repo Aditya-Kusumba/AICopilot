@@ -41,7 +41,7 @@ def chat_message(req: ChatMessageRequest):
     add_message(chat_id, "user", user_input)
 
     result = run_graph(user_input, chat_id)
-    print("Graph Result:", result)
+    print("Length of papers found:", len(result.get("papers", [])))
     papers = result.get("papers", [])
     response_text = result.get("response", "")
 
