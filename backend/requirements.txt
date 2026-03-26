@@ -1,0 +1,15 @@
+fastapi>=0.110.0
+uvicorn
+pydantic>=2.0
+pydantic-settings
+
+langchain
+langchain-community
+langchain-ollama
+langgraph
+
+chromadb
+
+arxiv
+reportlab
+python-dotenv
