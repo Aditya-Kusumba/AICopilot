@@ -1,18 +1,27 @@
-import os
-import google.generativeai as genai
-from dotenv import load_dotenv
+import requests
 
-load_dotenv()
+OLLAMA_URL = "http://localhost:11434/api/generate"
+MODEL_NAME = "qwen3:4b"
 
-genai.configure(
-    api_key=os.getenv("GEMINI_API_KEY")
-)
 
-llm = genai.GenerativeModel("gemini-1.5-flash")
+def ollama_generate(prompt: str):
+    response = requests.post(
+        OLLAMA_URL,
+        json={
+            "model": MODEL_NAME,
+            "prompt": prompt,
+            "stream": False
+        }
+    )
+
+    if response.status_code != 200:
+        raise Exception(f"Ollama error: {response.text}")
+
+    return response.json()["response"]
+
 
 def generate_response(prompt: str):
-    response = llm.generate_content(prompt)
-    return response.text
+    return ollama_generate(prompt)
 
 
 def generate_literature_review(texts: list):
@@ -31,9 +40,7 @@ Given multiple research paper abstracts, generate a structured literature review
 Abstracts:
 {combined_text}
 """
-
-    response = llm.generate_content(prompt)
-    return response.text
+    return ollama_generate(prompt)
 
 
 def generate_research_gap(text: str):
@@ -48,9 +55,7 @@ Identify:
 Abstract:
 {text}
 """
-
-    response = llm.generate_content(prompt)
-    return response.text
+    return ollama_generate(prompt)
 
 def generate_citations(papers, style):
     prompt = f"""
@@ -59,6 +64,4 @@ Format the following papers into {style} citations.
 Papers:
 {papers}
 """
-
-    response = llm.generate_content(prompt)
-    return response.text
+    return ollama_generate(prompt)

@@ -14,15 +14,15 @@ from services.llm_service import generate_response
 
 def classify_intent(state: GraphState):
     prompt = f"""
-    Classify the user input into one of:
-    - new_topic
-    - follow_up
-    - action
+Classify the user input into one of:
+- new_topic (user is asking for papers / searching a topic)
+- follow_up (referring to previous results)
+- action (operations like save, delete, summarize)
 
-    Input: {state['user_input']}
+Input: {state['user_input']}
 
-    Only return one word.
-    """
+Only return one word exactly: new_topic, follow_up, or action.
+"""
 
     result = generate_response(prompt).strip().lower()
 
@@ -69,6 +69,7 @@ User Input:
 
         state["query"] = data.get("query", state["user_input"])
         state["paper_count"] = min(int(data.get("paper_count", 5)), 10)
+        print(state)
 
     except Exception as e:
         print("JSON PARSE ERROR:", e)
@@ -82,6 +83,7 @@ User Input:
 from services.arxiv_service import fetch_papers
 
 def fetch_arxiv(state: GraphState):
+    print(f"Fetching papers for query: {state['query']} with count: {state['paper_count']}")
     papers = fetch_papers(state["query"], state["paper_count"])
     state["papers"] = papers
     return state
@@ -148,6 +150,5 @@ def run_graph(user_input: str, chat_id: str):
         "papers": [],
         "response": None
     }
-
     result = graph.invoke(state)
     return result

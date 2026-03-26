@@ -40,9 +40,8 @@ def chat_message(req: ChatMessageRequest):
 
     add_message(chat_id, "user", user_input)
 
-
-    # 🧠 Run LangGraph
     result = run_graph(user_input, chat_id)
+    print("Graph Result:", result)
     papers = result.get("papers", [])
     response_text = result.get("response", "")
 
