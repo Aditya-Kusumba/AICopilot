@@ -1,23 +1,36 @@
 import requests
 
 OLLAMA_URL = "http://localhost:11434/api/generate"
-MODEL_NAME = "qwen3:4b"
+MODEL_NAME = "gemma3:1b"
 
 
 def ollama_generate(prompt: str):
-    response = requests.post(
-        OLLAMA_URL,
-        json={
-            "model": MODEL_NAME,
-            "prompt": prompt,
-            "stream": False
-        }
-    )
+    try:
+        response = requests.post(
+            OLLAMA_URL,
+            json={
+                "model": MODEL_NAME,
+                "prompt": prompt,
+                "stream": False
+            },
+            timeout=30  # ⏱️ prevents hanging
+        )
 
-    if response.status_code != 200:
-        raise Exception(f"Ollama error: {response.text}")
+        if response.status_code != 200:
+            raise Exception(f"Ollama error: {response.text}")
 
-    return response.json()["response"]
+        data = response.json()
+        return data.get("response", "")
+
+    except requests.exceptions.ConnectionError:
+        return "⚠️ Ollama not running"
+
+    except requests.exceptions.Timeout:
+        return "⚠️ Request timed out"
+
+    except Exception as e:
+        print("OLLAMA ERROR:", e)
+        return "⚠️ LLM error"
 
 
 def generate_response(prompt: str):
@@ -66,6 +79,7 @@ Abstract:
 {text}
 """
     return ollama_generate(prompt)
+
 
 def generate_citations(papers, style):
     prompt = f"""

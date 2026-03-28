@@ -1,0 +1,47 @@
+.chat-window {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #343541;
+  color: white;
+}
+
+.messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+/* Input bar */
+.input-container {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  background: #40414f;
+}
+
+.input-container textarea {
+  flex: 1;
+  resize: none;
+  border: none;
+  outline: none;
+  padding: 12px;
+  border-radius: 8px;
+  background: #343541;
+  color: white;
+}
+
+.input-container button {
+  margin-left: 10px;
+  padding: 10px 14px;
+  background: #19c37d;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* typing animation */
+.typing {
+  opacity: 0.6;
+  font-style: italic;
+}

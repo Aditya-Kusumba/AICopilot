@@ -1,0 +1,21 @@
+.sidebar {
+  width: 260px;
+  background: #202123;
+  color: white;
+  padding: 20px;
+}
+
+.new-chat {
+  width: 100%;
+  padding: 10px;
+  background: #19c37d;
+  border: none;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+.history {
+  opacity: 0.6;
+  font-size: 14px;
+}

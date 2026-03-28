@@ -1,0 +1,39 @@
+.message {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.message.user {
+  justify-content: flex-end;
+}
+
+.message.assistant {
+  justify-content: flex-start;
+}
+
+/* Avatar */
+.avatar {
+  margin-right: 10px;
+  font-size: 20px;
+}
+
+/* Bubble */
+.bubble {
+  max-width: 65%;
+  padding: 12px 16px;
+  border-radius: 10px;
+  line-height: 1.5;
+}
+
+/* User */
+.user .bubble {
+  background: #19c37d;
+  color: white;
+}
+
+/* Assistant */
+.assistant .bubble {
+  background: #444654;
+  color: white;
+}
